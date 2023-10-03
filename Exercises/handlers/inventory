@@ -1,0 +1,29 @@
+all:
+  hosts:
+    web01:
+      ansible_host: 172.31.58.215
+    web02:
+      ansible_host: 172.31.62.190
+    web03:
+      ansible_host: 172.31.83.122
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: clientkey.pem
+      
+    db01:
+      ansible_host: 172.31.51.44	
+  children:
+    webservers:
+      hosts:
+        web01:
+        web02:
+    dataserver:
+      hosts:
+        db01:
+    dc_oregon:
+      children:
+        webservers:
+        dataserver:
+      vars:
+        ansible_user: ec2-user
+        ansible_ssh_private_key_file: clientkey.pem
+
